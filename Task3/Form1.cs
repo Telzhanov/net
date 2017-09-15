@@ -12,6 +12,16 @@ namespace Task3
 {
     public partial class Form1 : Form
     {
+        public void Inizalization()
+        {
+            string[] lines = System.IO.File.ReadAllLines(@"C:\Users\User\Desktop\net\Task3\database.txt");
+            foreach (string line in lines)
+            {
+                string[] words = line.Split(' ');
+                dataGridView1.Rows.Add(words[0], words[1], words[2], words[3], words[4]);
+
+            }
+        }
         public Form1()
         {
             InitializeComponent();
@@ -29,7 +39,7 @@ namespace Task3
 
         private void textBox3_TextChanged(object sender, EventArgs e)
         {
-
+            
         }
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
@@ -39,8 +49,47 @@ namespace Task3
 
         private void button1_Click(object sender, EventArgs e)
         {
-            dataGridView1.Rows.Add("First", "SEcond");
+            string gender="";
+            string text;
+            if (radioButton1.Checked)
+            {
+                gender = radioButton1.Text;
+            }
+            if (radioButton2.Checked)
+            {
+                gender = radioButton2.Text;
+            }
+            if (textBox1.Text == "" || textBox2.Text == "" || textBox3.Text == "" || comboBox1.Text == "")
+            {
+                string message = "Check all your spaces";
+                string caption = "Error Detected in Input";
+                MessageBoxButtons buttons = MessageBoxButtons.YesNo;
+                DialogResult result;
+
+
+                result = MessageBox.Show(message, caption, buttons);
+
+                if (result == System.Windows.Forms.DialogResult.Yes)
+                {
+
+
+                   
+
+                }
+            }
+            else
+            {
+                dataGridView1.Rows.Add(textBox1.Text, textBox2.Text, comboBox1.Text, textBox3.Text, gender);
+                text = textBox1.Text + " " + textBox2.Text + " " + comboBox1.Text + " " + textBox3.Text + " " + gender;
+                using (System.IO.StreamWriter file =
+
+                    new System.IO.StreamWriter(@"C:\Users\User\Desktop\net\Task3\database.txt", true))
+                {
+                    file.WriteLine(text);
+                }
+            }
         }
+
 
         private void dateTimePicker1_ValueChanged(object sender, EventArgs e)
         {
@@ -57,7 +106,7 @@ namespace Task3
 
         private void Form1_Load(object sender, EventArgs e)
         {
-
+            Inizalization();
         }
     }
 }
